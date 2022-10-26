@@ -43,20 +43,18 @@ public class GraphImpl<N> implements Graph<N> {
     public Set linkedNodes(N node) {
         return g.get(node);
     }
+    // BFS->
 
-    @Override
+/*     @Override
     public List getPath(N source, N target) {
-        final Map<N, Integer> distances = new HashMap<>();
         final Map<N, N> father = new HashMap<>();
         final Map<N, Integer> color = new HashMap<>();
 
         for (N node : g.keySet()) {
-            distances.put(node, INFINITY);
             father.put(node, null);
             color.put(node, 1); // 1 white, 2 gray, 3 black
         }
 
-        distances.put(source, 0);
         color.put(source, 2);
         final Deque<N> toExploreQueue = new LinkedList<N>();
         toExploreQueue.addLast(source);
@@ -66,12 +64,38 @@ public class GraphImpl<N> implements Graph<N> {
             for (N son : g.get(nToExplore)) {
                 if (color.get(son) == 1) {
                     father.put(son, nToExplore);
-                    distances.put(son, distances.get(nToExplore) + 1);
                     toExploreQueue.addLast(son);
                 }
             }
             color.put(nToExplore, 3);
         }
+        return returnList(target, father);
+    }
+ */
+    // DFS->
+    public List getPath(N source, N target) {
+        final Map<N, N> father = new HashMap<>();
+        final Map<N, Integer> color = new HashMap<>();
+        for (N node : g.keySet()) {
+            father.put(node, null);
+            color.put(node, 1); // 1 white, 2 gray, 3 black
+        }
+        DfsVisit(source, father, color);
+        return returnList(target, father);
+    }
+
+    private void DfsVisit(N node, Map<N, N> father, Map<N, Integer> color) {
+        color.put(node, 2);
+        for (N adj : g.get(node)) {
+            if (color.get(adj) == 1) {
+                father.put(adj, node);
+                DfsVisit(adj, father, color);
+            }
+        }
+        color.put(node, 3);
+    }
+
+    private List<N> returnList(N target, Map<N, N> father) {
         Deque<N> result = new LinkedList<>();
         N cursor = (target);
         while (cursor != null) {
