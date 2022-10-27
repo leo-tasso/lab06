@@ -26,7 +26,7 @@ public class GraphImpl<N> implements Graph<N> {
 
     @Override
     public void addNode(N node) {
-        g.put(node, new HashSet<N>());
+        g.putIfAbsent(node, new HashSet<N>());
     }
 
     @Override
@@ -80,16 +80,16 @@ public class GraphImpl<N> implements Graph<N> {
             father.put(node, null);
             color.put(node, 1); // 1 white, 2 gray, 3 black
         }
-        DfsVisit(source, father, color);
+        dfsVisit(source, father, color);
         return returnList(target, father);
     }
 
-    private void DfsVisit(N node, Map<N, N> father, Map<N, Integer> color) {
+    private void dfsVisit(N node, Map<N, N> father, Map<N, Integer> color) {
         color.put(node, 2);
         for (N adj : g.get(node)) {
             if (color.get(adj) == 1) {
                 father.put(adj, node);
-                DfsVisit(adj, father, color);
+                dfsVisit(adj, father, color);
             }
         }
         color.put(node, 3);
