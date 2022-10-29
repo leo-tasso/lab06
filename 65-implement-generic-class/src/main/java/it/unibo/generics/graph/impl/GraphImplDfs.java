@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GraphImplDfs<N> extends GraphImpl<N> {
+    @Override
     public List<N> getPath(N source, N target) {
         final Map<N, N> father = new HashMap<>();
         final Map<N, Integer> color = new HashMap<>();
