@@ -8,7 +8,7 @@ public class NetworkExeption extends IOException {
         super("Network error: no response");
     }
 
-    public NetworkExeption(String message) {
+    public NetworkExeption(final String message) {
         super("Network error while sending message: " + message);
     }
 
